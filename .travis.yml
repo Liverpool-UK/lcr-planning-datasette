@@ -16,6 +16,8 @@ before_script:
 script:
 - export LATEST_DATASETTE=`curl -s "https://api.github.com/repos/simonw/datasette/commits/master"
   | jq -r .sha`
-- datasette publish heroku lcr-planning-applications.db -n lcr-planning
-  --version-note=$LATEST_DATASETTE
+- datasette publish heroku lcr-planning-applications.db -n lcr-planning --version-note=$LATEST_DATASETTE
   --branch=$LATEST_DATASETTE
+deploy:
+  api_key:
+    secure: HTwvADTc/oUpGtob22ZZ6LD48q4vtFYSoAajwDnqbCKWziSQ64dqRsYKCcISFVKyZXnrfYWytt8zVW8wD4Ym4juekrD8dfK1poOfyEvI+HAVUDPmuXuu6jyM2IcS2QeuRhgMiYHwhX/1YBP5fXnzeH8OsGj/dzU0kGnsGsrYYGonQqp9o6+OZQtKTHFRbI496Pc95v580GzHBjpkkJoA8wH75QiTLX6v4q+5ixzR94HBTbIj1pfU04sptgNzKgQsscBSeP9Lm6uHniZnwZiMpasLilZn6/lQWriOjtXf4gEDeZc7ILHWoKBdfCkHjRdfj0rFWFYISxHTLlyEecIZcujx1+IZNyjErR5ue4f3QMQafyI4YpSx2E8ZEn95R45l/NRtQkN+KWO+Bj8bPcITmmRVd5x0zOmI04U9G3GOZjLgqXg04PGesNvj8lXGVT2tdVfrse13GQg0l9Lm0O5Os0nlurJUzTtfJ6iK8HcDAg/ocoLQr2nYbRNtEDgdsZUYb9+FW+YHnyM95B72MUZ3pvsGBw/YmGR8vceX5mr9UP5cMsfeJarlTY2WBKNgLVDaFVmtT/fytjwIvdtIMAnRuEESy5N8Dzd4DPufF/3fdlGaif/0EE3NhAlmyRW5oopO5tbB4Z4fyHXELf1IY3FukiEG/62+kuc3x6i7Sf5ACBU=
