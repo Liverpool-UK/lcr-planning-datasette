@@ -1,0 +1,21 @@
+language: python
+env:
+  global:
+    secure: N6tNzl0+EW10kDZeXqpckch6W4vdOy9R+foAp2oCZnzxnrAJT9GU9YpNGxRyHwoffv2S2Xr3528tWAwgI4qq601YDHYDw1XezKOGxqYSe8TrOJz89fSHUb7vDyy/jywKkfxlBhB//2b2Hctolwkdkp8dmlctheonJIIT4mUWQyrqYk9BOWuxMabKK5k6xmLz5rN5QJXFsVV+4XW8LYUD0C/qp4Gs6ZuX/v1Pqli6RIGcQU2MGcVqew66PwX322rU8zFltrLmHi4UcjuQEicZGTR66O+H425v8FiQ8BCaPRFtFfFQ0ygaRiaKRlKwSAPECGaf0Oc1x/mX5q9t5LVcf8E767ylsm1PJxAhmkZiA/uT/UBAUNccEJ6GA1RrC7hkETv0b5FOhSoJ3ZLU7o2sI921TzX42eJmR0oW7AvjUOvQr2r0YoPsSxRZtqEm+SPEiFseZEcQFDeGph02QB+3sArAYwchaAOFY7Dv88CgOINi9OcdE/tyiwvL1uxA9+mduPcdF0bpTWsSGThw6kWP7TT0UAxhMqlp7KpW7LQL2B+fzmtZAGiKWkD+Eq/0fZqUjnXUrA9QBOh/hWGhnkt32oPJ1UFScP5bm6zHHrMxYl9TL5nxvkrjXvt6O9b/OapuD8/599ZAc+Pvqvr/7EfNOwmSjWjXys6ys5FV88ndOl4=
+python:
+- '3.6'
+branches:
+  only:
+  - master
+before_script:
+- pip install Markdown==2.6.11
+- pip install https://github.com/simonw/datasette/archive/master.zip
+- npm install -g heroku
+- heroku plugins:install heroku-builds
+- curl -L -o lcr-planning-applications.db https://morph.io/Liverpool-UK/lcr_planning_applications/data.sqlite?key=$MORPH_TOKEN
+script:
+- export LATEST_DATASETTE=`curl -s "https://api.github.com/repos/simonw/datasette/commits/master"
+  | jq -r .sha`
+- datasette publish heroku lcr-planning-applications.db -n lcr-planning
+  --version-note=$LATEST_DATASETTE
+  --branch=$LATEST_DATASETTE
